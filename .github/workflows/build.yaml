@@ -47,6 +47,8 @@ jobs:
       run:
         shell: pwsh
     env:
+      PYPI_TORCH_VERSION: "2.5.1"
+      TORCH_VERSION: ${{ matrix.torch }}
       PYPI_CUDA_VERSION: "12.4.1"
       CUDA_VERSION: ${{ matrix.cuda }}
 
@@ -108,8 +110,8 @@ jobs:
           $env:CUDA_PATH = $env:CONDA_PREFIX
           $env:CUDA_HOME = $env:CONDA_PREFIX
 
-          # Only add +cu118 to wheel if not releasing on PyPi
-          if ( $env:CUDA_VERSION -eq $env:PYPI_CUDA_VERSION ){
+          # Only add +torch240cu121 to wheel if not releasing on PyPi
+          if ( $env:TORCH_VERSION -eq $env:PYPI_TORCH_VERSION -and $env:CUDA_VERSION -eq $env:PYPI_CUDA_VERSION ){
             $env:PYPI_BUILD = 1
           }
 
