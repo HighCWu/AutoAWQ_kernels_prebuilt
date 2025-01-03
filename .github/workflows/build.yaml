@@ -43,6 +43,9 @@ jobs:
         pyver: ["3.9", "3.10", "3.11", "3.12"]
         cuda: ["12.1.1", "12.4.1"]
         torch: ["2.4.0", "2.5.1"]
+        exclude:
+          - os: windows-latest
+            cuda: "12.1.1"
     defaults:
       run:
         shell: pwsh
@@ -64,12 +67,6 @@ jobs:
           large-packages: false
           docker-images: true
           swap-storage: false
-
-      - name: Setup Visual Studio
-        if: runner.os == 'Windows' && (matrix.cuda < '12.4')
-        uses: microsoft/setup-msbuild@v2
-        with:
-          vs-version: '[17.10, 17.11)' # cuda<12.4 is not supported after vs17.10
 
       - uses: actions/checkout@v3
 
