@@ -19,12 +19,13 @@ ROCM_VERSION = os.environ.get("ROCM_VERSION", None) or torch.version.hip
 
 if not PYPI_BUILD:
     # only adding CUDA/ROCM version if we are not building for PyPI to comply with PEP 440
+    TORCH_VERSION_SUFFIX = "torch" + "".join(TORCH_VERSION.split("."))[:3]
     if CUDA_VERSION:
         CUDA_VERSION = "".join(CUDA_VERSION.split("."))[:3]
-        AUTOAWQ_KERNELS_VERSION += f"+cu{CUDA_VERSION}"
+        AUTOAWQ_KERNELS_VERSION += f"+{TORCH_VERSION_SUFFIX}cu{CUDA_VERSION}"
     elif ROCM_VERSION:
         ROCM_VERSION = "".join(ROCM_VERSION.split("."))[:3]
-        AUTOAWQ_KERNELS_VERSION += f"+rocm{ROCM_VERSION}"
+        AUTOAWQ_KERNELS_VERSION += f"+{TORCH_VERSION_SUFFIX}rocm{ROCM_VERSION}"
     else:
         raise RuntimeError(
             "Your system must have either Nvidia or AMD GPU to build this package."
