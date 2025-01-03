@@ -83,6 +83,8 @@ jobs:
           auto-activate-base: false
 
       - name: Install Dependencies
+        env:
+          MAMBA_NO_LOW_SPEED_LIMIT: "1"
         run: |
           # Install CUDA toolkit
           mamba install -y 'cuda' -c "nvidia/label/cuda-${env:CUDA_VERSION}"
